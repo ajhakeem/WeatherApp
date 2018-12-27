@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/day_gradient">
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline_h25"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25"/>
+
+    <ImageView
+        android:id="@+id/iv_weather_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/guideline_h25"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:src="@mipmap/clear_day"
+        android:tint="@color/dayTextColor"/>
+
+    <TextView
+        android:id="@+id/tv_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/temp_f"
+        android:textStyle="bold"
+        android:textColor="@color/dayTextColor"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h50"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline_h50"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"/>
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/description"
+        android:textStyle="bold"
+        android:textColor="@color/dayTextColor"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/guideline_h50"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline_v50"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+    <!--Weather details 1-->
+
+    <TextView
+        android:id="@+id/tv_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/humidity"
+        android:textStyle="bold"
+        android:textColor="@color/dayTextColor"
+        android:layout_marginTop="64dp"
+        app:layout_constraintTop_toBottomOf="@id/guideline_h50"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v50"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_pressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/pressure"
+        android:textStyle="bold"
+        android:textColor="@color/dayTextColor"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_humidity"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v50"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_chance_of_rain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/precip_chance"
+        android:textStyle="bold"
+        android:textColor="@color/dayTextColor"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_pressure"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v50"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--Forecast Details 2-->
+
+    <TextView
+        android:id="@+id/tv_forecast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/forecast"
+        android:textStyle="bold"
+        android:textColor="@color/dayTextColor"
+        android:layout_marginTop="64dp"
+        app:layout_constraintTop_toBottomOf="@id/guideline_h50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline_v50" />
+
+    <ImageView
+        android:id="@+id/iv_forecast_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_forecast"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline_v50"
+        android:src="@mipmap/snow_night"
+        android:tint="@color/dayTextColor"/>
+
+    <TextView
+        android:id="@+id/tv_forecast_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/forecast_summary"
+        android:textStyle="bold"
+        android:textColor="@color/dayTextColor"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_pressure"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline_v50" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline_h75"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75"/>
+
+</android.support.constraint.ConstraintLayout>

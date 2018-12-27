@@ -4,4 +4,14 @@
     <!--Location-->
     <string name="enter_location">Enter location..</string>
     <string name="submit_location">Go</string>
+
+    <!--Weather-->
+    <string name="temp_f">°F</string>
+    <string name="description">Description</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="precip_chance">Chance of rain</string>
+    <string name="forecast">Forecast</string>
+    <string name="forecast_summary">Forecast summary</string>
+
 </resources>
