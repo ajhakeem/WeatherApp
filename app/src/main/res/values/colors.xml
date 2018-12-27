@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="nightGradient1">#C33764</color>
+    <color name="nightGradient2">#1D2671</color>
+    <color name="dayGradient1">#6190E8</color>
+    <color name="dayGradient2">#A7BFE8</color>
 </resources>

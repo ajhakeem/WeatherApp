@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+
+    <!--Location-->
+    <string name="enter_location">Enter location..</string>
+    <string name="submit_location">Go</string>
 </resources>
