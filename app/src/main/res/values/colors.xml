@@ -3,8 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="shadow">#f2f2f2</color>
     <color name="dayTextColor">#FFF</color>
-    <color name="nightTextColor">#F4F68A</color>
+    <color name="nightTextColor">#fbfbd0</color>
     <color name="nightGradient1">#73288B</color>
     <color name="nightGradient2">#1D2671</color>
     <color name="dayGradient1">#6190E8</color>

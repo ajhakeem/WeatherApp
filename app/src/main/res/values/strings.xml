@@ -2,16 +2,17 @@
     <string name="app_name">WeatherApp</string>
 
     <!--Location-->
-    <string name="enter_location">Enter location..</string>
     <string name="submit_location">Go</string>
+    <string name="toast_location_permission">Location permissions are required in order to provide services according to your current location.</string>
+    <string name="toast_select_location">Please enter a location</string>
 
     <!--Weather-->
-    <string name="temp_f">°F</string>
-    <string name="description">Description</string>
-    <string name="humidity">Humidity</string>
-    <string name="pressure">Pressure</string>
-    <string name="precip_chance">Chance of rain</string>
+    <string name="temp_f">%1$s °F</string>
+    <string name="description">%1$s</string>
+    <string name="humidity">Humidity: %1$s\%%</string>
+    <string name="pressure">Pressure: %1$s mb</string>
+    <string name="precip_chance">Chance of rain: %1$s\%%</string>
     <string name="forecast">Forecast</string>
-    <string name="forecast_summary">Forecast summary</string>
+    <string name="forecast_summary">%1$s</string>
 
 </resources>

@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@drawable/day_gradient">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_weather"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/day_gradient">
+
+    <TextView
+        android:id="@+id/tv_selected_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/dayTextColor"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h25"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="16dp"/>
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
@@ -30,7 +43,7 @@ android:background="@drawable/day_gradient">
         android:text="@string/temp_f"
         android:textStyle="bold"
         android:textColor="@color/dayTextColor"
-        android:textSize="24sp"
+        android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@id/guideline_h50"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
@@ -129,7 +142,6 @@ android:background="@drawable/day_gradient">
         app:layout_constraintTop_toBottomOf="@id/tv_forecast"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline_v50"
-        android:src="@mipmap/snow_night"
         android:tint="@color/dayTextColor"/>
 
     <TextView
@@ -138,10 +150,12 @@ android:background="@drawable/day_gradient">
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        app:layout_constrainedWidth="true"
         android:text="@string/forecast_summary"
         android:textStyle="bold"
         android:textColor="@color/dayTextColor"
         android:layout_marginTop="24dp"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/tv_pressure"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline_v50" />

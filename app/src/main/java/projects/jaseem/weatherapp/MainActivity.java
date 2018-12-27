@@ -3,6 +3,7 @@ package projects.jaseem.weatherapp;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -31,6 +32,9 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.IOException;
+import java.util.Locale;
+
 import projects.jaseem.weatherapp.Retrofit.ApiInterface;
 import projects.jaseem.weatherapp.Retrofit.Models.WeatherResponse;
 import projects.jaseem.weatherapp.Retrofit.RetrofitClient;
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private PlaceAutocompleteFragment mPlaceAutocompleteFragment;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    private Geocoder mGeocoder;
     private Location lastKnownLocation;
     private Place selectedPlace;
     private StringBuilder sbLatLng = new StringBuilder();
@@ -54,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton bLocateMe;
     private ApiInterface mApiInterface;
     private ProgressBar pbProgress;
+    private WeatherFragment weatherFragment;
+    private String selectedCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +68,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mFragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         mApiInterface = RetrofitClient.getInstance().create(ApiInterface.class);
 
         mPlaceAutocompleteFragment = (PlaceAutocompleteFragment) MainActivity.this.getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        mPlaceAutocompleteFragment.setFilter(new AutocompleteFilter.Builder().setCountry("US").build());
+        mPlaceAutocompleteFragment.setFilter(new AutocompleteFilter.Builder().setCountry("US").setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES).build());
         mPlaceAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "onPlaceSelected: " + place.getName());
                 selectedPlace = place;
+                selectedCity = String.valueOf(selectedPlace.getName());
                 sbLatLng.setLength(0);
                 sbLatLng.append(selectedPlace.getLatLng().latitude).append(",").append(selectedPlace.getLatLng().longitude);
             }
@@ -83,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        mGeocoder= new Geocoder(MainActivity.this, Locale.getDefault());
 
         pbProgress = findViewById(R.id.pb_progress);
 
@@ -103,8 +111,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (selectedPlace != null) {
                     getWeather();
-                } else {
+                } else if (lastKnownLocation != null) {
                     checkPermissions();
+                } else {
+                    Toast.makeText(MainActivity.this, getString(R.string.toast_select_location), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -117,17 +127,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 Log.i(TAG, "onResponse: Success!");
-                System.out.println("Summary is : " + response.body().getCurrently().getSummary());
+                pbProgress.setVisibility(View.GONE);
+                if (mFragmentManager.findFragmentById(R.id.fl_content) instanceof WeatherFragment) {
+                    weatherFragment.setWeatherResponse(response.body(), selectedCity);
+                    weatherFragment.updateUI();
+                } else {
+                    weatherFragment = new WeatherFragment();
+                    weatherFragment.setWeatherResponse(response.body(), selectedCity);
+                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fl_content, weatherFragment).commit();
+                }
             }
 
             @Override
             public void onFailure(Call<WeatherResponse> call, Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
+                pbProgress.setVisibility(View.GONE);
             }
         });
-
-        pbProgress.setVisibility(View.GONE);
-
     }
 
     private void checkPermissions() {
@@ -143,6 +160,11 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Location location) {
                             lastKnownLocation = location;
+                            try {
+                                selectedCity = mGeocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1).get(0).getLocality();
+                            } catch (IOException ioe) {
+                                Log.e(TAG, "onSuccess: ", ioe);
+                            }
                             sbLatLng.setLength(0);
                             sbLatLng.append(location.getLatitude()).append(",").append(location.getLongitude());
                             getWeather();
@@ -155,11 +177,9 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSIONS_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (lastKnownLocation == null) {
                 checkPermissions();
-            }
         } else {
-            System.out.println("NOT GRANTED");
+            Toast.makeText(MainActivity.this, getString(R.string.toast_location_permission), Toast.LENGTH_SHORT).show();
         }
     }
 }
