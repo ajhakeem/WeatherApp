@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final int PERMISSIONS_CODE = 111;
+    private static final String FRAG_TAG = "FRAG";
 
     private FragmentManager mFragmentManager;
     private PlaceAutocompleteFragment mPlaceAutocompleteFragment;
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         bLocateMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mPlaceAutocompleteFragment.setText(null);
                 checkPermissions();
                 if (lastKnownLocation != null) {
                     getWeather();
@@ -118,6 +120,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if (savedInstanceState != null) {
+            System.out.println("INSTANCE NOT NULL");
+            weatherFragment = (WeatherFragment) mFragmentManager.findFragmentByTag(FRAG_TAG);
+        } else {
+            System.out.println("INSTANCE NULL");
+        }
+
+        checkPermissions();
     }
 
     private void getWeather() {
@@ -135,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     weatherFragment = new WeatherFragment();
                     weatherFragment.setWeatherResponse(response.body(), selectedCity);
                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fl_content, weatherFragment).commit();
+                    fragmentTransaction.replace(R.id.fl_content, weatherFragment, FRAG_TAG).commit();
                 }
             }
 
@@ -179,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == PERMISSIONS_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 checkPermissions();
         } else {
+            pbProgress.setVisibility(View.GONE);
             Toast.makeText(MainActivity.this, getString(R.string.toast_location_permission), Toast.LENGTH_SHORT).show();
         }
     }

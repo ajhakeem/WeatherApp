@@ -3,10 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="shadow">#f2f2f2</color>
-    <color name="dayTextColor">#FFF</color>
+    <color name="offwhite">#EAEAEA</color>
+    <color name="gray">#ABA9AC</color>
+    <color name="dayTextColor">#EEF7FF</color>
+    <color name="dayDetailBox">#C0E1FF</color>
     <color name="nightTextColor">#fbfbd0</color>
     <color name="nightGradient1">#73288B</color>
+    <color name="nightDetailBox">#8C7FCC</color>
+    <color name="nightDetailTextColor">#562379</color>
     <color name="nightGradient2">#1D2671</color>
     <color name="dayGradient1">#6190E8</color>
     <color name="dayGradient2">#A7BFE8</color>

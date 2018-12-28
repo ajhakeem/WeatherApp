@@ -9,9 +9,9 @@
     <!--Weather-->
     <string name="temp_f">%1$s °F</string>
     <string name="description">%1$s</string>
-    <string name="humidity">Humidity: %1$s\%%</string>
+    <string name="humidity">Humidity: %1$d\%%</string>
     <string name="pressure">Pressure: %1$s mb</string>
-    <string name="precip_chance">Chance of rain: %1$s\%%</string>
+    <string name="precip_chance">Chance of rain: %1$d\%%</string>
     <string name="forecast">Forecast</string>
     <string name="forecast_summary">%1$s</string>
 
