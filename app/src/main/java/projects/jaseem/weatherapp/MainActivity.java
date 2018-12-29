@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
     private Location lastKnownLocation;
     private Place selectedPlace;
     private StringBuilder sbLatLng = new StringBuilder();
-    private Button bGo;
-    private ImageButton bLocateMe;
     private ApiInterface mApiInterface;
     private ProgressBar pbProgress;
     private WeatherFragment weatherFragment;
@@ -72,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         mApiInterface = RetrofitClient.getInstance().create(ApiInterface.class);
 
+        //Set a filter on the Google Places Autocomplete to only include locations in the US and to limit possibilities to cities
         mPlaceAutocompleteFragment = (PlaceAutocompleteFragment) MainActivity.this.getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         mPlaceAutocompleteFragment.setFilter(new AutocompleteFilter.Builder().setCountry("US").setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES).build());
         mPlaceAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -90,24 +89,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Init client to get user's current location and init geocoder to get city name from LatLng
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         mGeocoder= new Geocoder(MainActivity.this, Locale.getDefault());
 
         pbProgress = findViewById(R.id.pb_progress);
 
-        bLocateMe = findViewById(R.id.ibtn_locate_me);
+        ImageButton bLocateMe = findViewById(R.id.ibtn_locate_me);
         bLocateMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPlaceAutocompleteFragment.setText(null);
+                selectedPlace = null;
                 checkPermissions();
-                if (lastKnownLocation != null) {
-                    getWeather();
-                }
             }
         });
 
-        bGo = findViewById(R.id.btn_go);
+        Button bGo = findViewById(R.id.btn_go);
         bGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,16 +119,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (savedInstanceState != null) {
-            System.out.println("INSTANCE NOT NULL");
-            weatherFragment = (WeatherFragment) mFragmentManager.findFragmentByTag(FRAG_TAG);
-        } else {
-            System.out.println("INSTANCE NULL");
-        }
-
+        //To load weather for user's current location upon opening the app
         checkPermissions();
     }
 
+    //Make API call via Retrofit to retrieve weather response for provided LatLng
     private void getWeather() {
         Call<WeatherResponse> call = mApiInterface.getWeather(sbLatLng.toString());
         pbProgress.setVisibility(View.VISIBLE);
@@ -139,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 Log.i(TAG, "onResponse: Success!");
                 pbProgress.setVisibility(View.GONE);
+                //If fragment exists, just update the weather response and UI
                 if (mFragmentManager.findFragmentById(R.id.fl_content) instanceof WeatherFragment) {
                     weatherFragment.setWeatherResponse(response.body(), selectedCity);
                     weatherFragment.updateUI();
@@ -158,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Check to see if location permissions granted
     private void checkPermissions() {
         String[] permissions = {android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
@@ -184,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Result of permission request
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -194,4 +190,5 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, getString(R.string.toast_location_permission), Toast.LENGTH_SHORT).show();
         }
     }
+
 }

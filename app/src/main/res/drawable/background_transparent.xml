@@ -3,9 +3,9 @@
     android:shape="rectangle">
 
     <solid
-        android:color="@color/nightDetailBox"/>
+        android:color="@color/transparent"/>
 
     <corners
-        android:radius="5dp"/>
+        android:radius="12dp"/>
 
 </shape>

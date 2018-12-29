@@ -18,7 +18,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDZ6RcAt2rAtiOItshAO2HmNcx2o14Kl9k"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:configChanges="orientation|screenSize|keyboardHidden" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

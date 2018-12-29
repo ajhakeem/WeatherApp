@@ -6,6 +6,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/dayTextColor</item>
+    </style>
+
+    <style name="NightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/nightDetailTextColor</item>
+        <item name="android:textColorSecondary">@color/nightDetailTextColor</item>
+        <item name="android:textColorTertiary">@color/nightDetailTextColor</item>
+        <item name="android:textColorPrimaryInverse">@color/nightDetailTextColor</item>
+        <item name="android:textColorSecondaryInverse">@color/nightDetailTextColor</item>
+        <item name="android:textColorTertiaryInverse">@color/nightDetailTextColor</item>
     </style>
 
 </resources>
