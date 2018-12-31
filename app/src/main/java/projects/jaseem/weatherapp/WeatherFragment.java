@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -70,7 +71,6 @@ public class WeatherFragment extends Fragment {
         this.selectedCity = selectedCity;
         int indexOffset = 0;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("E");
         Calendar cal1 = Calendar.getInstance();
         Date date1 = new Date(weatherResponse.getCurrently().getTime() * 1000);
         cal1.setTime(date1);
@@ -89,18 +89,23 @@ public class WeatherFragment extends Fragment {
         }
 
         //Only obtain the days that are in the future of current day
-        this.dataPoints = weatherResponse.getDaily().getData().subList(indexOffset, weatherResponse.getDaily().getData().size() - 1);
+        if (dataPoints == null) {
+            dataPoints = new ArrayList<>();
+            this.dataPoints.addAll(weatherResponse.getDaily().getData().subList(indexOffset, weatherResponse.getDaily().getData().size() - 1));
+        }
 
         if (forecastAdapter != null) {
-            forecastAdapter = null;
-            forecastAdapter = new ForecastAdapter(getContext(), dataPoints);
+            this.dataPoints.clear();
+            this.dataPoints.addAll(weatherResponse.getDaily().getData().subList(indexOffset, weatherResponse.getDaily().getData().size() - 1));
+            forecastAdapter.notifyDataSetChanged();
             rvForecast.setAdapter(forecastAdapter);
         }
     }
 
     public void updateUI() {
         //Compare time of request retrieval and sunset time at desired location to determine day or night theme
-        if (weatherResponse.getCurrently().getTime() < Long.valueOf(weatherResponse.getDaily().getData().get(0).getSunsetTime())) {
+        if (weatherResponse.getCurrently().getTime() < Long.valueOf(weatherResponse.getDaily().getData().get(0).getSunsetTime())
+                || weatherResponse.getCurrently().getTime() < Long.valueOf(weatherResponse.getDaily().getData().get(0).getSunriseTime())) {
             toggleViewTheme(DAY_CODE);
         } else {
             toggleViewTheme(NIGHT_CODE);
