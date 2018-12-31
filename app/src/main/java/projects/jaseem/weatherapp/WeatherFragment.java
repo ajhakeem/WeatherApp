@@ -105,7 +105,7 @@ public class WeatherFragment extends Fragment {
     public void updateUI() {
         //Compare time of request retrieval and sunset time at desired location to determine day or night theme
         if (weatherResponse.getCurrently().getTime() < Long.valueOf(weatherResponse.getDaily().getData().get(0).getSunsetTime())
-                || weatherResponse.getCurrently().getTime() < Long.valueOf(weatherResponse.getDaily().getData().get(0).getSunriseTime())) {
+                || weatherResponse.getCurrently().getTime() > Long.valueOf(weatherResponse.getDaily().getData().get(0).getSunriseTime())) {
             toggleViewTheme(DAY_CODE);
         } else {
             toggleViewTheme(NIGHT_CODE);
